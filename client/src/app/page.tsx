@@ -7,6 +7,7 @@ import '../../styles/Home.css';
 import Search from '../../components/Search';
 import Modal from '../../components/Modal';
 import { Book } from '../../types';
+import Snackbar from '../../components/Snackbar';
 
 // GraphQL queries and mutations
 const GET_ALL_BOOKS = gql`
@@ -33,6 +34,11 @@ const Home: React.FC = () => {
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [snackbar, setSnackbar] = useState<{ message: string; type: 'success' | 'error'; isOpen: boolean }>({
+    message: '',
+    type: 'success',
+    isOpen: false,
+  });
   const booksPerPage = 16;
 
   // Fetching data using Apollo Client's useQuery hook
@@ -62,6 +68,7 @@ const Home: React.FC = () => {
 
   const handleBookAdded = () => {
     refetch();
+    setSnackbar({ message: 'Book added successfully', type: 'success', isOpen: true });
   };
 
   const handleFilteredBooks = (filteredBooks: Book[]) => {
@@ -100,6 +107,10 @@ const Home: React.FC = () => {
     console.error('Apollo Client Error:', error); // Log the error
     return <p>Error: {error.message}</p>;
   }
+  
+  const handleSnackbarClose = () => {
+    setSnackbar((prev) => ({ ...prev, isOpen: false }));
+  };
 
   return (
     <div className="book-list">
@@ -156,6 +167,12 @@ const Home: React.FC = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         onBookAddedOrUpdated={handleBookAdded}
+      />
+       <Snackbar
+        message={snackbar.message}
+        type={snackbar.type}
+        isOpen={snackbar.isOpen}
+        onClose={handleSnackbarClose}
       />
     </div>
   );

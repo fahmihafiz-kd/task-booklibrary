@@ -8,6 +8,7 @@ export const typeDefs = gql`
     publicationYear: Int
     genre: String
     ISBN: String!
+    imageUrl: String  # Add this line
   }
 
   type Query {
@@ -16,8 +17,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    addBook(title: String!, author: String!, publicationYear: Int, genre: String, ISBN: String!): Book
-    updateBook(id: ID!, title: String, author: String, publicationYear: Int, genre: String, ISBN: String): Book
+    addBook(title: String!, author: String!, publicationYear: Int, genre: String, ISBN: String!, imageUrl: String): Book  # Add imageUrl
+    updateBook(id: ID!, title: String, author: String, publicationYear: Int, genre: String, ISBN: String, imageUrl: String): Book  # Add imageUrl
     deleteBook(id: ID!): Boolean
   }
 `;

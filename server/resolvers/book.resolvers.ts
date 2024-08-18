@@ -10,12 +10,39 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addBook: async (_: any, args: { title: string; author: string; publicationYear?: number; genre?: string; ISBN: string }) => {
+    addBook: async (
+      _: any,
+      args: {
+        title: string;
+        author: string;
+        publicationYear?: number;
+        genre?: string;
+        ISBN: string;
+        imageUrl?: string; // Add imageUrl here
+      }
+    ) => {
       const newBook = new Book(args);
       return await newBook.save();
     },
-    updateBook: async (_: any, { id, ...args }: { id: string; title?: string; author?: string; publicationYear?: number; genre?: string; ISBN?: string }) => {
-      return await Book.findByIdAndUpdate(id, args, { new: true, runValidators: true });
+    updateBook: async (
+      _: any,
+      {
+        id,
+        ...args
+      }: {
+        id: string;
+        title?: string;
+        author?: string;
+        publicationYear?: number;
+        genre?: string;
+        ISBN?: string;
+        imageUrl?: string; // Add imageUrl here
+      }
+    ) => {
+      return await Book.findByIdAndUpdate(id, args, {
+        new: true,
+        runValidators: true,
+      });
     },
     deleteBook: async (_: any, { id }: { id: string }) => {
       const deleted = await Book.findByIdAndDelete(id);

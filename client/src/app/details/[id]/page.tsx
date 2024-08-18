@@ -19,6 +19,7 @@ const GET_BOOK_BY_ID = gql`
       publicationYear
       genre
       ISBN
+      imageUrl
     }
   }
 `;

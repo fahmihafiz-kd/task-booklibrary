@@ -4,27 +4,29 @@ import '../styles/Modal.css';
 import { Book } from '../types';
 
 const ADD_BOOK = gql`
-  mutation AddBook($title: String!, $author: String!, $publicationYear: Int!, $genre: String!, $ISBN: String!) {
-    addBook(title: $title, author: $author, publicationYear: $publicationYear, genre: $genre, ISBN: $ISBN) {
+  mutation AddBook($title: String!, $author: String!, $publicationYear: Int!, $genre: String!, $ISBN: String!, $imageUrl: String!) {
+    addBook(title: $title, author: $author, publicationYear: $publicationYear, genre: $genre, ISBN: $ISBN, imageUrl: $imageUrl) {
       id
       title
       author
       publicationYear
       genre
       ISBN
+      imageUrl
     }
   }
 `;
 
 const UPDATE_BOOK = gql`
-  mutation UpdateBook($id: ID!, $title: String!, $author: String!, $publicationYear: Int!, $genre: String!, $ISBN: String!) {
-    updateBook(id: $id, title: $title, author: $author, publicationYear: $publicationYear, genre: $genre, ISBN: $ISBN) {
+  mutation UpdateBook($id: ID!, $title: String!, $author: String!, $publicationYear: Int!, $genre: String!, $ISBN: String!, $imageUrl: String!) {
+    updateBook(id: $id, title: $title, author: $author, publicationYear: $publicationYear, genre: $genre, ISBN: $ISBN, imageUrl: $imageUrl) {
       id
       title
       author
       publicationYear
       genre
       ISBN
+      imageUrl
     }
   }
 `;
@@ -40,6 +42,7 @@ const Modal: React.FC<{
   const [publicationYear, setPublicationYear] = useState('');
   const [genre, setGenre] = useState('');
   const [isbn, setIsbn] = useState('');
+  const [imageUrl, setImageUrl] = useState(''); // Add this line
 
   const [addBook] = useMutation(ADD_BOOK);
   const [updateBook] = useMutation(UPDATE_BOOK);
@@ -51,16 +54,16 @@ const Modal: React.FC<{
       setPublicationYear(book.publicationYear?.toString() || '');
       setGenre(book.genre || '');
       setIsbn(book.ISBN || '');
+      setImageUrl(book.imageUrl || ''); // Add this line
     } else {
-      // Reset the fields when there's no book (e.g., when adding a new book)
       setTitle('');
       setAuthor('');
       setPublicationYear('');
       setGenre('');
       setIsbn('');
+      setImageUrl(''); // Add this line
     }
   }, [book]);
-  
 
   if (!isOpen) return null;
 
@@ -76,6 +79,7 @@ const Modal: React.FC<{
             publicationYear: parseInt(publicationYear),
             genre,
             ISBN: isbn,
+            imageUrl, // Add this line
           },
         });
       } else {
@@ -86,6 +90,7 @@ const Modal: React.FC<{
             publicationYear: parseInt(publicationYear),
             genre,
             ISBN: isbn,
+            imageUrl, // Add this line
           },
         });
       }
@@ -149,6 +154,16 @@ const Modal: React.FC<{
               id="isbn" 
               value={isbn} 
               onChange={(e) => setIsbn(e.target.value)} 
+              required 
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="imageUrl">Image URL</label>
+            <input 
+              type="text" 
+              id="imageUrl" 
+              value={imageUrl} 
+              onChange={(e) => setImageUrl(e.target.value)} 
               required 
             />
           </div>

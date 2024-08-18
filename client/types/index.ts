@@ -5,5 +5,6 @@ export interface Book {
     publicationYear?: number;
     genre?: string;
     ISBN: string;
+    imageUrl: string;
   }
   
