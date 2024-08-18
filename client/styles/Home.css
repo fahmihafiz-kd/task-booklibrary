@@ -1,0 +1,147 @@
+.book-list {
+    padding: 2rem;
+    min-height: 100vh;
+    /* Ensure the book-list takes up the full viewport height */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Space out the content and pagination */
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    flex-grow: 1;
+    /* Make sure the container grows to fill available space */
+}
+
+.book-box {
+    padding: 1rem;
+    border-radius: 8px;
+    width: 200px;
+    text-align: left;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 350px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.book-title {
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0.5rem 0;
+    color: #333;
+}
+
+.book-box:hover {
+    transform: translateY(-5px);
+}
+
+.book-image-placeholder {
+    background-color: #eee;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 0.25rem;
+    color: #999;
+    font-style: italic;
+    border: 1px solid black;
+}
+
+.book-box p {
+    margin: 0.2rem 0;
+    color: #666;
+}
+
+.book-box p:last-child {
+    margin-bottom: 0;
+}
+
+.delete-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    padding: 0;
+}
+
+.delete-button:hover {
+    background: darkred;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    /* Add some padding for spacing */
+}
+
+.pagination-controls button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #008cba;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-controls span {
+    line-height: 40px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    /* Align items in the center vertically */
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 2rem;
+    margin-right: 20px;
+    /* Add some space between the title and the button */
+}
+
+.add-button {
+    margin-left: 10px;
+    margin-bottom: 15px;
+    padding: 0px 20px;
+    background-color: #28a745;
+    /* Green color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    height: 30px;
+}
+
+.add-button:hover {
+    background-color: #218838;
+    /* Darker green on hover */
+}

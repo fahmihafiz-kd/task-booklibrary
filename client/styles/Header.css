@@ -1,0 +1,37 @@
+header {
+  padding: 1rem;
+  background-color: #008080;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.title a {
+  color: white; /* Ensure the title link is white */
+  text-decoration: none; /* Remove underline */
+}
+
+.title a:hover {
+  text-decoration: underline; /* Optional: underline on hover */
+}
+
+.navigation a {
+  color: white; /* Set the navigation links to white */
+  margin-left: 20px;
+  text-decoration: none; /* Remove underline */
+}
+
+.navigation a:hover {
+  text-decoration: underline; /* Optional: underline on hover */
+}

@@ -1,0 +1,21 @@
+.snackbar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 16px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .snackbar.success {
+    background-color: green;
+  }
+  
+  .snackbar.error {
+    background-color: red; /* This makes the error Snackbar red */
+  }
+  
