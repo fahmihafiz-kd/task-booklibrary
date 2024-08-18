@@ -79,7 +79,7 @@ const BookDetails: React.FC = () => {
 
         // Wait for a short duration so the Snackbar is visible before redirecting
         setTimeout(() => {
-          router.push('/home');
+          router.push('/');
         }, 1500); // Adjust the timeout duration as needed
       } catch (error) {
         setSnackbar({ message: 'Failed to delete book', type: 'error', isOpen: true });
