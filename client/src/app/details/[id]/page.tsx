@@ -103,11 +103,7 @@ const BookDetails: React.FC = () => {
       <div className="details-container">
         <h1>{book?.title}</h1>
         <div className="author-info">
-          {book?.imageUrl ? (
-            <img src={book.imageUrl} alt={book.author} width={50} height={50} className="author-image" />
-          ) : (
             <PlaceholderImage width={50} height={50} className="author-image" />
-          )}
           <span className="author-name">{book?.author}</span>
         </div>
         <div className="stars">
