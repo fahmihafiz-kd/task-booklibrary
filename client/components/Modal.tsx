@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../lib/firebase'; // Adjust the path to your firebase setup file
 import '../styles/Modal.css';
 import { Book } from '../types';
 
@@ -42,7 +44,8 @@ const Modal: React.FC<{
   const [publicationYear, setPublicationYear] = useState('');
   const [genre, setGenre] = useState('');
   const [isbn, setIsbn] = useState('');
-  const [imageUrl, setImageUrl] = useState(''); // Add this line
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState(''); // To store the Firebase URL
 
   const [addBook] = useMutation(ADD_BOOK);
   const [updateBook] = useMutation(UPDATE_BOOK);
@@ -54,21 +57,36 @@ const Modal: React.FC<{
       setPublicationYear(book.publicationYear?.toString() || '');
       setGenre(book.genre || '');
       setIsbn(book.ISBN || '');
-      setImageUrl(book.imageUrl || ''); // Add this line
+      setImageUrl(book.imageUrl || '');
     } else {
       setTitle('');
       setAuthor('');
       setPublicationYear('');
       setGenre('');
       setIsbn('');
-      setImageUrl(''); // Add this line
+      setImageUrl('');
     }
   }, [book]);
 
   if (!isOpen) return null;
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImageFile(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    let uploadedImageUrl = imageUrl;
+
+    if (imageFile) {
+      const imageRef = ref(storage, `books/${imageFile.name}`);
+      await uploadBytes(imageRef, imageFile);
+      uploadedImageUrl = await getDownloadURL(imageRef);
+    }
+
     try {
       if (book) {
         await updateBook({
@@ -79,7 +97,7 @@ const Modal: React.FC<{
             publicationYear: parseInt(publicationYear),
             genre,
             ISBN: isbn,
-            imageUrl, // Add this line
+            imageUrl: uploadedImageUrl, // Use the uploaded image URL
           },
         });
       } else {
@@ -90,7 +108,7 @@ const Modal: React.FC<{
             publicationYear: parseInt(publicationYear),
             genre,
             ISBN: isbn,
-            imageUrl, // Add this line
+            imageUrl: uploadedImageUrl, // Use the uploaded image URL
           },
         });
       }
@@ -158,13 +176,12 @@ const Modal: React.FC<{
             />
           </div>
           <div className="form-group">
-            <label htmlFor="imageUrl">Image URL</label>
+            <label htmlFor="image">Upload Image</label>
             <input 
-              type="text" 
-              id="imageUrl" 
-              value={imageUrl} 
-              onChange={(e) => setImageUrl(e.target.value)} 
-              required 
+              type="file" 
+              id="image" 
+              accept="image/*" 
+              onChange={handleFileChange} 
             />
           </div>
           <button type="submit" className="submit-button">

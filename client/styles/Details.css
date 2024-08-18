@@ -9,6 +9,14 @@
     min-height: 100vh;
     flex-wrap: wrap;
 }
+.book-image-placeholder img.book-image {
+    width: 100%; /* Image should take full width of the container */
+    height: 100%; /* Image should take full height of the container */
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+    position: absolute; /* Position the image inside the container */
+    top: 0;
+    left: 0;
+  }
 
 .image-container {
     flex: 1;

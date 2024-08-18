@@ -94,12 +94,20 @@ const BookDetails: React.FC = () => {
   return (
     <div className="book-details-container">
       <div className="image-container">
-        <PlaceholderImage width={400} height={400} />
+        {book?.imageUrl ? (
+          <img src={book.imageUrl} alt={book.title} width={400} height={400} />
+        ) : (
+          <PlaceholderImage width={400} height={400} />
+        )}
       </div>
       <div className="details-container">
         <h1>{book?.title}</h1>
         <div className="author-info">
-          <PlaceholderImage width={50} height={50} className="author-image" />
+          {book?.imageUrl ? (
+            <img src={book.imageUrl} alt={book.author} width={50} height={50} className="author-image" />
+          ) : (
+            <PlaceholderImage width={50} height={50} className="author-image" />
+          )}
           <span className="author-name">{book?.author}</span>
         </div>
         <div className="stars">

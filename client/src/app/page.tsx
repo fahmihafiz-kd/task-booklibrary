@@ -19,13 +19,8 @@ const GET_ALL_BOOKS = gql`
       publicationYear
       genre
       ISBN
+      imageUrl
     }
-  }
-`;
-
-const DELETE_BOOK = gql`
-  mutation DeleteBook($id: ID!) {
-    deleteBook(id: $id)
   }
 `;
 
@@ -43,7 +38,6 @@ const Home: React.FC = () => {
 
   // Fetching data using Apollo Client's useQuery hook
   const { loading, error, data, refetch } = useQuery<{ getAllBooks: Book[] }>(GET_ALL_BOOKS);
-  const [deleteBook] = useMutation(DELETE_BOOK);
   const router = useRouter();
 
   useEffect(() => {
@@ -53,18 +47,6 @@ const Home: React.FC = () => {
       setFilteredBooks(data.getAllBooks);
     }
   }, [data]);
-
-  const handleDelete = async (id: string) => {
-    const confirmed = window.confirm("Are you sure you want to delete this book?");
-    if (confirmed) {
-      try {
-        await deleteBook({ variables: { id } });
-        refetch();
-      } catch (error) {
-        console.error("Error deleting book:", error);
-      }
-    }
-  };
 
   const handleBookAdded = () => {
     refetch();
@@ -107,7 +89,7 @@ const Home: React.FC = () => {
     console.error('Apollo Client Error:', error); // Log the error
     return <p>Error: {error.message}</p>;
   }
-  
+
   const handleSnackbarClose = () => {
     setSnackbar((prev) => ({ ...prev, isOpen: false }));
   };
@@ -128,17 +110,13 @@ const Home: React.FC = () => {
               onClick={() => handleBookClick(book.id)} // Navigate on click
             >
               <div className="book-image-placeholder">
-                <button
-                  className="delete-button"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent navigation if delete is clicked
-                    handleDelete(book.id);
-                  }}
-                >
-                  ×
-                </button>
-                <p>Image Placeholder</p>
+                {book.imageUrl ? (
+                  <img src={book.imageUrl} alt={book.title} />
+                ) : (
+                  <p>Image Placeholder</p>
+                )}
               </div>
+
               <h2 className="book-title">{book.title}</h2>
             </div>
           ))
@@ -168,7 +146,7 @@ const Home: React.FC = () => {
         onClose={closeModal}
         onBookAddedOrUpdated={handleBookAdded}
       />
-       <Snackbar
+      <Snackbar
         message={snackbar.message}
         type={snackbar.type}
         isOpen={snackbar.isOpen}
