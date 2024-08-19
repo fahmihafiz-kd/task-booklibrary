@@ -8,7 +8,7 @@ export const typeDefs = gql`
     publicationYear: Int
     genre: String
     ISBN: String!
-    imageUrl: String  # Add this line
+    imageUrl: String
   }
 
   type Query {
@@ -20,5 +20,9 @@ export const typeDefs = gql`
     addBook(title: String!, author: String!, publicationYear: Int, genre: String, ISBN: String!, imageUrl: String): Book  # Add imageUrl
     updateBook(id: ID!, title: String, author: String, publicationYear: Int, genre: String, ISBN: String, imageUrl: String): Book  # Add imageUrl
     deleteBook(id: ID!): Boolean
+  }
+
+  type Subscription {
+    bookAdded: Book  # Add subscription for bookAdded
   }
 `;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../lib/firebase'; // Adjust the path to your firebase setup file
+import { storage } from '../lib/firebase';
 import '../styles/Modal.css';
 import { Book } from '../types';
 

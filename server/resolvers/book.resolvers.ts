@@ -1,4 +1,5 @@
 import { Book } from '../models/book.model';
+import { pubsub } from '../pubsub'
 
 export const resolvers = {
   Query: {
@@ -22,7 +23,9 @@ export const resolvers = {
       }
     ) => {
       const newBook = new Book(args);
-      return await newBook.save();
+      const savedBook = await newBook.save();
+      pubsub.publish('BOOK_ADDED', { bookAdded: savedBook }); // Publish the event to the subscription
+      return savedBook;
     },
     updateBook: async (
       _: any,
@@ -47,6 +50,11 @@ export const resolvers = {
     deleteBook: async (_: any, { id }: { id: string }) => {
       const deleted = await Book.findByIdAndDelete(id);
       return deleted ? true : false;
+    },
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED']),
     },
   },
 };
